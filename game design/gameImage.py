@@ -1,15 +1,6 @@
 import pygame
-import os
-
+from characters import pieces
 pygame.init()
-
-backGround = pygame.image.load("images/chessboard.bmp")
-bgRect = backGround.get_rect()
-width = bgRect.width/1.5
-height = bgRect.height/1.5
-backGround = pygame.transform.scale(backGround,(width,height))
-gameDisplay = pygame.display.set_mode((width,height))
-gameDisplay.blit(backGround,(0,0))
 
 def handlePiecesAdding(path,x,y):
     piece = pygame.image.load(path)
@@ -19,37 +10,31 @@ def handlePiecesAdding(path,x,y):
     piece = pygame.transform.scale(piece,(width,height))
     gameDisplay.blit(piece,(x,y))
 
-# x = 78
-handlePiecesAdding("images/main_pieces/black-rook.bmp",85,80)
-handlePiecesAdding("images/main_pieces/black-archbis.bmp",163,80)
-handlePiecesAdding("images/main_pieces/black-bishop.bmp",241,80)
-handlePiecesAdding("images/main_pieces/black-amazon.bmp",319,80)
-handlePiecesAdding("images/main_pieces/black-king.bmp",397,80)
-handlePiecesAdding("images/main_pieces/black-bishop.bmp",475,80)
-handlePiecesAdding("images/main_pieces/black-archbis.bmp",553,80)
-handlePiecesAdding("images/main_pieces/black-rook.bmp",631,80)
-x = 85
-for i in range(8):
-    handlePiecesAdding("images/pawns/black-bpawn2.bmp",x,158)
-    x+=78
 
+backGround = pygame.image.load("images/chessboard.bmp")
+bgRect = backGround.get_rect()
+width = bgRect.width/1.5
+height = bgRect.height/1.5
+backGround = pygame.transform.scale(backGround,(width,height)) #? This is the steps that affects the main image
+gameDisplay = pygame.display.set_mode((width,height)) #? This is a step that affects the main display
+gameDisplay.blit(backGround,(0,0))
 
-handlePiecesAdding("images/main_pieces/white-rook.bmp",85,626)
-handlePiecesAdding("images/main_pieces/white-archbis.bmp",163,626)
-handlePiecesAdding("images/main_pieces/white-bishop.bmp",241,626)
-handlePiecesAdding("images/main_pieces/white-amazon.bmp",319,626)
-handlePiecesAdding("images/main_pieces/white-king.bmp",397,626)
-handlePiecesAdding("images/main_pieces/white-bishop.bmp",475,626)
-handlePiecesAdding("images/main_pieces/white-archbis.bmp",553,626)
-handlePiecesAdding("images/main_pieces/white-rook.bmp",631,626)
-x = 85
-for i in range(8):
-    handlePiecesAdding("images/pawns/white-bpawn2.bmp",x,548)
-    x+=78
+for items in pieces:
+    handlePiecesAdding(items.url,items.x,items.y)
 
 pygame.display.flip()
-while True:
+run = True
+while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
+            run = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for items in pieces:
+                if(event.pos[0] >= items.x and event.pos[0] <= (items.x+78) and event.pos[1] >= items.y and event.pos[1] <= (items.y+78)):
+                    # print(items.name)
+                    pygame.draw.rect(gameDisplay, (105,146,62), pygame.Rect(items.x-7, items.y-3, items.size, items.size)) 
+                    handlePiecesAdding(items.url,items.x,items.y)
+                    pygame.display.flip()
+                    print("Pressed")
+
+            
