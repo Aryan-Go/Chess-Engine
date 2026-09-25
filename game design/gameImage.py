@@ -8,7 +8,7 @@ def handlePiecesAdding(path,x,y):
     pieceRect = piece.get_rect()
     width = pieceRect.width/2
     height = pieceRect.height/2
-    print(width,height)
+    # print(width,height)
     piece = pygame.transform.scale(piece,(width,height))
     gameDisplay.blit(piece,(x,y))
 
@@ -17,7 +17,7 @@ backGround = pygame.image.load("images/chessboard.bmp")
 bgRect = backGround.get_rect()
 width = bgRect.width/1.5
 height = bgRect.height/1.5
-print(width,height)
+# print(width,height)
 backGround = pygame.transform.scale(backGround,(width,height)) #? This is the steps that affects the main image
 gameDisplay = pygame.display.set_mode((width,height)) #? This is a step that affects the main display
 
