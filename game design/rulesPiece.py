@@ -24,5 +24,6 @@ def kingMove(piece):
         if(curr_x+dx[i] >= 78 and curr_x+dx[i] <= 621 and curr_y+dy[i]>= 78 and curr_y+dy[i]<=621):
             if not (isOccupied(piece,curr_x+dx[i],curr_y+dy[i])):
                 ans.append([curr_x+dx[i],curr_y+dy[i]])
+                #some change
     return ans
 
