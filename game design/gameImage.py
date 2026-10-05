@@ -1,6 +1,6 @@
 import pygame
 from characters import pieces
-from rulesPiece import kingMove
+from rulesPiece import kingMove,queenMove
 pygame.init()
 
 def handlePiecesAdding(path,x,y):
@@ -10,8 +10,16 @@ def handlePiecesAdding(path,x,y):
     height = pieceRect.height/2
     # print(width,height)
     piece = pygame.transform.scale(piece,(width,height))
-    gameDisplay.blit(piece,(x,y))
+    gameDisplay.blit(piece,(x*77+85,y*77+80))
 
+def handleDotAdding(path,x,y):
+    piece = pygame.image.load(path).convert_alpha()
+    pieceRect = piece.get_rect()
+    width = pieceRect.width/2
+    height = pieceRect.height/2
+    # print(width,height)
+    piece = pygame.transform.scale(piece,(width,height))
+    gameDisplay.blit(piece,(x*77+70,y*77+75))
 
 backGround = pygame.image.load("images/chessboard.bmp")
 bgRect = backGround.get_rect()
@@ -35,16 +43,20 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN:
             gameDisplay.blit(backGround,(0,0))
             for items in pieces:
-                if(event.pos[0] >= items.x and event.pos[0] <= (items.x+78) and event.pos[1] >= items.y and event.pos[1] <= (items.y+78)):
+                if((event.pos[0]-85)/77 >= items.x and (event.pos[0]-85)/77 <= (items.x+1) and (event.pos[1]-80)/77 >= items.y and (event.pos[1]-80)/77 <= (items.y+1)):
                     # print(items.name)
-                    pygame.draw.rect(gameDisplay, (105,146,62), pygame.Rect(items.x, items.y, items.size, items.size)) 
+                    pygame.draw.rect(gameDisplay, (105,146,62), pygame.Rect(items.x*77+78, items.y*77+78, items.size, items.size)) 
                     handlePiecesAdding(items.url,items.x,items.y)
                     if(items.type == "king"):
                         coord = kingMove(items)
                         print(coord)
                         for pts in coord:
-                            handlePiecesAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
-                        pass
+                            handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
+                    elif(items.type == "queen"):
+                        coord = queenMove(items)
+                        print(coord)
+                        for pts in coord:
+                            handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
                 else:
                     handlePiecesAdding(items.url,items.x,items.y)
             pygame.display.flip()
