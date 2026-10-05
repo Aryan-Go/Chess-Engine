@@ -5,10 +5,18 @@ import characters
 
 def isOccupied(piece,new_x,new_y):
     for item in characters.pieces:
-        print(item.x,item.y)
-        print(new_x,new_y)
-        print(item.colour,piece.colour)
+        # print(item.x,item.y)
+        # print(new_x,new_y)
+        # print(item.colour,piece.colour)
         if(item.x == new_x and item.y == new_y and item.colour == piece.colour):
+            return True
+    return False
+def isOpponent(piece,new_x,new_y):
+    for item in characters.pieces:
+        # print(item.x,item.y)
+        # print(new_x,new_y)
+        # print(item.colour,piece.colour)
+        if(item.x == new_x and item.y == new_y and item.colour != piece.colour):
             return True
     return False
 
@@ -47,3 +55,31 @@ def queenMove(piece):
             else:
                 break
     return ans
+
+def pawnMovement(piece):
+    curr_x = piece.x
+    curr_y = piece.y
+    print(curr_x,curr_y)
+    ans = []
+    if(piece.colour == "black"):
+        print("in")
+        if(curr_y == 1 and not isOccupied(piece,curr_x,curr_y+2) and not isOccupied(piece,curr_x,curr_y+1)):
+            ans.append([curr_x,curr_y+2])
+        if isOpponent(piece,curr_x+1,curr_y+1):
+            ans.append([curr_x+1,curr_y+1])
+        if isOpponent(piece,curr_x-1,curr_y+1):
+            ans.append([curr_x-1,curr_y+1])
+        if not isOccupied(piece,curr_x,curr_y+1):
+            ans.append([curr_x,curr_y+1])
+    else:
+        if(curr_y == 6 and not isOccupied(piece,curr_x,curr_y-2) and not isOccupied(piece,curr_x,curr_y-1)):
+            ans.append([curr_x,curr_y-2])
+        if isOpponent(piece,curr_x+1,curr_y-1):
+            ans.append([curr_x+1,curr_y-1])
+        if isOpponent(piece,curr_x-1,curr_y-1):
+            ans.append([curr_x-1,curr_y-1])
+        if not isOccupied(piece,curr_x,curr_y-1):
+            ans.append([curr_x,curr_y-1])
+    return ans
+
+

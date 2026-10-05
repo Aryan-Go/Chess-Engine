@@ -1,6 +1,6 @@
 import pygame
 from characters import pieces
-from rulesPiece import kingMove,queenMove
+from rulesPiece import kingMove,queenMove,pawnMovement
 pygame.init()
 
 def handlePiecesAdding(path,x,y):
@@ -54,6 +54,11 @@ while run:
                             handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
                     elif(items.type == "queen"):
                         coord = queenMove(items)
+                        print(coord)
+                        for pts in coord:
+                            handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
+                    elif(items.type == "pawn"):
+                        coord = pawnMovement(items)
                         print(coord)
                         for pts in coord:
                             handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
