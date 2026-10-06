@@ -34,6 +34,19 @@ def kingMove(piece):
                 ans.append([curr_x+dx[i],curr_y+dy[i]])
     return ans
 
+def knightMove(piece):
+    curr_x = piece.x
+    curr_y = piece.y
+    # print("Inside king move")
+    dx = [2,2,-2,-2,1,1,-1,-1]
+    dy = [1,-1,1,-1,2,-2,2,-2]
+    ans = []
+    for i in range(8):
+        if(curr_x+dx[i] >= 0 and curr_x+dx[i] <= 7 and curr_y+dy[i]>= 0 and curr_y+dy[i]<=7):
+            if not (isOccupied(piece,curr_x+dx[i],curr_y+dy[i])):
+                ans.append([curr_x+dx[i],curr_y+dy[i]])
+    return ans
+
 def queenMove(piece):
     curr_x = piece.x
     curr_y = piece.y

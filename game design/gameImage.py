@@ -1,6 +1,6 @@
 import pygame
 from characters import pieces
-from rulesPiece import kingMove,queenMove,pawnMovement,bishopMove,rookMove
+from rulesPiece import kingMove,queenMove,pawnMovement,bishopMove,rookMove,knightMove
 pygame.init()
 
 def handlePiecesAdding(path,x,y):
@@ -52,34 +52,22 @@ while run:
                     handlePiecesAdding(items.url,items.x,items.y)
                     if(items.type == "king"):
                         coord = kingMove(items)
-                        # print(coord)
-                        for pts in coord:
-                            handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
                     elif(items.type == "queen"):
                         coord = queenMove(items)
-                        # print(coord)
-                        for pts in coord:
-                            handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
+                    elif(items.type == "knight"):
+                        coord = knightMove(items)
                     elif(items.type == "bishop"):
                         coord = bishopMove(items)
-                        # print(coord)
-                        for pts in coord:
-                            handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
-
                     elif(items.type == "rook"):
                         coord = rookMove(items)
-                        # print(coord)
-                        for pts in coord:
-                            handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
                     elif(items.type == "pawn"):
                         coord = pawnMovement(items)
-                        # print(coord)
-                        for pts in coord:
-                            handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
                     selectedPiece = items
                     legalCoord = coord
                 else:
                     handlePiecesAdding(items.url,items.x,items.y)
+                for pts in legalCoord:
+                    handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
             pygame.display.flip()
         elif event.type == pygame.MOUSEBUTTONDOWN and selectedPiece != None:
             currx = int((event.pos[0]-78)/77)
