@@ -28,8 +28,10 @@ height = bgRect.height/1.5
 # print(width,height)
 backGround = pygame.transform.scale(backGround,(width,height)) #? This is the steps that affects the main image
 gameDisplay = pygame.display.set_mode((width,height)) #? This is a step that affects the main display
-
 gameDisplay.blit(backGround,(0,0))
+pygame.display.set_caption("Lets start the game. Its white turn to move")
+
+mover = "white" #? so that I can know which one to move black or white
 
 selectedPiece = None
 legalCoord = []
@@ -47,7 +49,9 @@ while run:
             gameDisplay.blit(backGround,(0,0))
             for items in pieces:
                 if((event.pos[0]-85)/77 >= items.x and (event.pos[0]-85)/77 <= (items.x+1) and (event.pos[1]-80)/77 >= items.y and (event.pos[1]-80)/77 <= (items.y+1)):
-                    # print(items.name)
+                    if(items.colour != mover):
+                        handlePiecesAdding(items.url,items.x,items.y)
+                        continue
                     pygame.draw.rect(gameDisplay, (105,146,62), pygame.Rect(items.x*77+78, items.y*77+78, items.size, items.size)) 
                     handlePiecesAdding(items.url,items.x,items.y)
                     if(items.type == "king"):
@@ -72,12 +76,11 @@ while run:
         elif event.type == pygame.MOUSEBUTTONDOWN and selectedPiece != None:
             currx = int((event.pos[0]-78)/77)
             curry = int((event.pos[1]-78)/77)
-            print(currx,curry)
-            print(legalCoord)
+            moved = False
             gameDisplay.blit(backGround,(0,0))
             for item in pieces:
                 if item.name == selectedPiece.name and [currx,curry] in legalCoord:
-                    print("in")
+                    moved = True
                     handlePiecesAdding(item.url,currx,curry)
                     item.x = currx
                     item.y = curry
@@ -86,5 +89,12 @@ while run:
             pygame.display.flip()
             selectedPiece = None
             legalCoord = []
+            if(mover == "white" and moved):
+                mover = "black"
+                pygame.display.set_caption("Its black turn to move")
+            elif(mover == "black" and moved):
+                mover = "white"
+                pygame.display.set_caption("Its white turn to move")
+            
 
             
