@@ -31,6 +31,9 @@ gameDisplay = pygame.display.set_mode((width,height)) #? This is a step that aff
 
 gameDisplay.blit(backGround,(0,0))
 
+selectedPiece = None
+legalCoord = []
+
 for items in pieces:
     handlePiecesAdding(items.url,items.x,items.y)
 
@@ -40,7 +43,7 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONDOWN and selectedPiece == None:
             gameDisplay.blit(backGround,(0,0))
             for items in pieces:
                 if((event.pos[0]-85)/77 >= items.x and (event.pos[0]-85)/77 <= (items.x+1) and (event.pos[1]-80)/77 >= items.y and (event.pos[1]-80)/77 <= (items.y+1)):
@@ -49,21 +52,40 @@ while run:
                     handlePiecesAdding(items.url,items.x,items.y)
                     if(items.type == "king"):
                         coord = kingMove(items)
-                        print(coord)
+                        # print(coord)
                         for pts in coord:
                             handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
                     elif(items.type == "queen"):
                         coord = queenMove(items)
-                        print(coord)
+                        # print(coord)
                         for pts in coord:
                             handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
                     elif(items.type == "pawn"):
                         coord = pawnMovement(items)
-                        print(coord)
+                        # print(coord)
                         for pts in coord:
                             handleDotAdding("images/main_pieces/legal_move_dots.bmp",pts[0],pts[1])
+                    selectedPiece = items
+                    legalCoord = coord
                 else:
                     handlePiecesAdding(items.url,items.x,items.y)
             pygame.display.flip()
+        elif event.type == pygame.MOUSEBUTTONDOWN and selectedPiece != None:
+            currx = int((event.pos[0]-78)/77)
+            curry = int((event.pos[1]-78)/77)
+            print(currx,curry)
+            print(legalCoord)
+            gameDisplay.blit(backGround,(0,0))
+            for item in pieces:
+                if item.name == selectedPiece.name and [currx,curry] in legalCoord:
+                    print("in")
+                    handlePiecesAdding(item.url,currx,curry)
+                    item.x = currx
+                    item.y = curry
+                else:
+                    handlePiecesAdding(item.url,item.x,item.y)
+            pygame.display.flip()
+            selectedPiece = None
+            legalCoord = []
 
             
