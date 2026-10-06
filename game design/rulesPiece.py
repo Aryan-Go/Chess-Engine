@@ -56,6 +56,50 @@ def queenMove(piece):
                 break
     return ans
 
+def bishopMove(piece):
+    curr_x = piece.x
+    curr_y = piece.y
+    # print("Inside king move")
+    dx = [1,1,-1,-1]
+    dy = [1,-1,1,-1]
+    ans = []
+    for i in range(4):
+        temp_x = curr_x
+        temp_y = curr_y
+        for j in range(8):
+            if(temp_x+dx[i] >= 0 and temp_x+dx[i] <= 7 and temp_y+dy[i]>= 0 and temp_y+dy[i]<=7):
+                temp_x = temp_x+dx[i]
+                temp_y = temp_y+dy[i]
+                if not (isOccupied(piece,temp_x,temp_y)):
+                    ans.append([temp_x,temp_y])
+                else:
+                    break
+            else:
+                break
+    return ans
+
+def rookMove(piece):
+    curr_x = piece.x
+    curr_y = piece.y
+    # print("Inside king move")
+    dx = [1,0,-1,0]
+    dy = [0,-1,0,1]
+    ans = []
+    for i in range(4):
+        temp_x = curr_x
+        temp_y = curr_y
+        for j in range(8):
+            if(temp_x+dx[i] >= 0 and temp_x+dx[i] <= 7 and temp_y+dy[i]>= 0 and temp_y+dy[i]<=7):
+                temp_x = temp_x+dx[i]
+                temp_y = temp_y+dy[i]
+                if not (isOccupied(piece,temp_x,temp_y)):
+                    ans.append([temp_x,temp_y])
+                else:
+                    break
+            else:
+                break
+    return ans
+
 def pawnMovement(piece):
     curr_x = piece.x
     curr_y = piece.y

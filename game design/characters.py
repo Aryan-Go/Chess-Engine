@@ -26,7 +26,7 @@ pieces = [
     Piece("bpawn6",5,1,"images/pawns/black-bpawn2.bmp","pawn","black"),
     Piece("bpawn7",6,1,"images/pawns/black-bpawn2.bmp","pawn","black"),
     Piece("bpawn8",7,1,"images/pawns/black-bpawn2.bmp","pawn","black"),
-    Piece("wbrook",0,7,"images/main_pieces/white-rook.bmp","pawn","white"),
+    Piece("wbrook",0,7,"images/main_pieces/white-rook.bmp","rook","white"),
     Piece("wknight",1,7,"images/main_pieces/white-archbis.bmp","knight","white"),
     Piece("wbishop",2,7,"images/main_pieces/white-bishop.bmp","bishop","white"),
     Piece("wqueen",3,7,"images/main_pieces/white-amazon.bmp","queen","white"),
