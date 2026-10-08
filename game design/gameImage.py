@@ -1,7 +1,12 @@
 import pygame
 from characters import pieces
 from rulesPiece import kingMove,queenMove,pawnMovement,bishopMove,rookMove,knightMove
+from helper import handleDeletion
+
+pygame.mixer.init()
 pygame.init()
+
+pygame.mixer.music.load("audio/chess_move_sound.mp3")
 
 def handlePiecesAdding(path,x,y):
     piece = pygame.image.load(path).convert_alpha()
@@ -78,14 +83,23 @@ while run:
             curry = int((event.pos[1]-78)/77)
             moved = False
             gameDisplay.blit(backGround,(0,0))
+
+            #? Moving the piece
             for item in pieces:
                 if item.name == selectedPiece.name and [currx,curry] in legalCoord:
+                    pygame.mixer.music.play()
                     moved = True
-                    handlePiecesAdding(item.url,currx,curry)
                     item.x = currx
                     item.y = curry
-                else:
-                    handlePiecesAdding(item.url,item.x,item.y)
+
+            #? If any enemy so handling its delettion
+            for items in pieces:
+                if selectedPiece.colour != items.colour and selectedPiece.x == items.x and selectedPiece.y == items.y:
+                    handleDeletion(items)
+
+            #? Rendering the pieces
+            for items in pieces:
+                handlePiecesAdding(items.url,items.x,items.y)
             pygame.display.flip()
             selectedPiece = None
             legalCoord = []
